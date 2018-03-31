@@ -1,0 +1,15 @@
+{
+  "name": "fs-extra",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/node": "^7.0.0-beta.42",
+    "@babel/preset-es2015": "^7.0.0-beta.42"
+  },
+  "scripts": {
+    "babel": "node_modules/@babel/node/bin/babel-node.js es/index.js",
+    "test": "node_modules/@babel/node/bin/babel-node.js test.js"
+  }
+}
