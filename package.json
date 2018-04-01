@@ -11,5 +11,8 @@
   "scripts": {
     "babel": "node_modules/@babel/node/bin/babel-node.js es/index.js",
     "test": "node_modules/@babel/node/bin/babel-node.js test.js"
+  },
+  "dependencies": {
+    "universalify": "^0.1.1"
   }
 }
