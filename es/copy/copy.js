@@ -1,4 +1,5 @@
 import { pathAccessAsync } from '../path-access'
+import { mkdirAsync } from '../mkdir';
 
 function _startCopy(...args) { 
   console.log('start-copy', ...args);
@@ -7,19 +8,26 @@ function _startCopy(...args) {
 export default  function copy(src, dist, opts) { 
   return new Promise(async (resolve, reject) => { 
     try { 
+      // await mkdir(dist)
       const distAccessError = await pathAccessAsync(dist)
-      // console.log('copy', distAccessError)
+      // dist is exist => startCopy
       if (!distAccessError) { 
-        // dist is exist => start copy
         return _startCopy(src, dist, opts)
       }
-      throw distAccessError
-      // if (!distAccessError) {
-      // }
     } catch (err) {
       // dist isn't exist => mkdir
-      // mkdirs()
-      console.log('mkdir', err);
+      try { 
+        await mkdirAsync(dist)
+        _startCopy(src, dist, opts)
+      } catch (err) {
+        reject(err)
+      }
     }
   })
 }
+
+// process.on('unhandledRejection', (err) => {
+//   console.log('Unhandled Rejection at:', err.message)
+//   // process.exit(1)
+//   // application specific logging, throwing an error, or other logic here
+// })
