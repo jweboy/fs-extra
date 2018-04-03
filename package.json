@@ -6,11 +6,13 @@
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.42",
     "@babel/node": "^7.0.0-beta.42",
-    "@babel/preset-es2015": "^7.0.0-beta.42"
+    "@babel/preset-es2015": "^7.0.0-beta.42",
+    "nodemon": "^1.17.3"
   },
   "scripts": {
+    "nodemon": "node_modules/nodemon/bin/nodemon.js --exec npm run dev --watch es/**/*.js",
     "babel": "node_modules/@babel/node/bin/babel-node.js es/index.js",
-    "test": "node_modules/@babel/node/bin/babel-node.js test.js"
+    "dev": "node_modules/@babel/node/bin/babel-node.js ./develop.js"
   },
   "dependencies": {
     "universalify": "^0.1.1"
