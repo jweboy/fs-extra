@@ -1,4 +1,4 @@
-export default function assign(fs, module) {
+export default function assign (fs, module) {
   // ['copy']
   const keys = Object.keys(module)
 

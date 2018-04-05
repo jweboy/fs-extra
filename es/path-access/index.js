@@ -1,17 +1,20 @@
 import fs from 'fs'
 import { promisify } from 'util'
 
-// const pathIsExistAsync = path => promisify(fs.access)(path)
-//   .then(() => null)
-//   .catch(err => err)
-// const pathIsExistAsync = (path) => new Promise((resolve, reject) => { 
-//   fs.access(path, function (err) { 
-//     if (err) reject(err)
-//     resolve(null)
+const ACCESSMODE = 'fs.constants.F_OK'
+
+const pathIsExistAsync = (path, mode = ACCESSMODE) => promisify(fs.access)(path, mode)
+  .then(() => true)
+  .catch(() => false)
+
+// const pathIsExistAsync = (path, mode) => new Promise((resolve, reject) => {
+//   fs.access(path, function (err) {
+//     if (err) resolve(false)
+//     resolve(true)
 //   })
 // })
 
 module.exports = {
-  pathAccessAsync: promisify(fs.access),
+  pathAccessAsync: pathIsExistAsync,
   pathAccessSync: fs.accessSync
 }
