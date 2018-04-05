@@ -1,4 +1,4 @@
-import mkdir from './mkdir';
+import mkdir from './mkdir'
 
 module.exports = {
   mkdirAsync: mkdir
