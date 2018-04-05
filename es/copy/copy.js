@@ -1,27 +1,62 @@
+import fs from 'fs'
+import path from 'path'
 import { pathAccessAsync } from '../path-access'
-import { mkdirAsync } from '../mkdir';
+import { mkdirAsync } from '../mkdir'
 
-function _startCopy(...args) { 
-  console.log('start-copy', ...args);
+function _startCopy (...args) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      await _getStats(...args)
+    } catch (err) {
+      // console.log('start-copy-err', err)
+      reject(err)
+    }
+  })
 }
 
-export default  function copy(src, dist, opts) { 
-  return new Promise(async (resolve, reject) => { 
-    try { 
-      // await mkdir(dist)
-      const distAccessError = await pathAccessAsync(dist)
-      // dist is exist => startCopy
-      if (!distAccessError) { 
-        return _startCopy(src, dist, opts)
-      }
+function _getStats (...args) {
+  return new Promise(async function (resolve, reject) {
+    console.log('start-copy', ...args)
+
+    const [src, dist] = args
+    const stat = fs.lstatSync
+
+    console.log(src)
+
+    try {
+      await stat(src)
     } catch (err) {
-      // dist isn't exist => mkdir
-      try { 
-        await mkdirAsync(dist)
-        _startCopy(src, dist, opts)
-      } catch (err) {
-        reject(err)
+      reject(err)
+    }
+  })
+}
+
+/**
+ *
+ * @param {String} 拷贝源目录
+ * @param {String} 拷贝目标目录
+ * @param {Objetc} 拷贝相关配置项
+ */
+export default function copy (src, dist, opts) {
+  return new Promise(async (resolve, reject) => {
+    src = path.resolve(src)
+    dist = path.resolve(dist)
+    if (src === dist) {
+      reject(new Error('src and dist must not be the same.'))
+    }
+    try {
+      const distIsExist = await pathAccessAsync(dist)
+      console.log('distIsExist', distIsExist)
+      if (distIsExist) {
+        // dist is exist => startCopy
+        return await _startCopy(src, dist, opts)
       }
+      // dist isn't exist => mkdir
+      await mkdirAsync(dist)
+      await _startCopy(src, dist, opts)
+    } catch (err) {
+      console.log('debug-err', err)
+      // reject(err)
     }
   })
 }
