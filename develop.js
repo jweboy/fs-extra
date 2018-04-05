@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from './es'
 
-fs.copy(path.resolve('./src22'), path.resolve('./forTest'), {})
+fs.copy(path.resolve('./src'), path.resolve('./forTest'), {})
   .catch(err => {
     console.log('copy-err', err)
     // throw err

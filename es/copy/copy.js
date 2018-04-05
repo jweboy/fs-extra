@@ -2,13 +2,13 @@ import fs from 'fs'
 import path from 'path'
 import { pathAccessAsync } from '../path-access'
 import { mkdirAsync } from '../mkdir'
+// import { promiseify } from '../util/promiseify'
 
 function _startCopy (...args) {
   return new Promise(async function (resolve, reject) {
     try {
       await _getStats(...args)
     } catch (err) {
-      // console.log('start-copy-err', err)
       reject(err)
     }
   })
